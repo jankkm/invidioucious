@@ -1,0 +1,21 @@
+{
+
+  "manifest_version": 2,
+  "name": "Invidioucious",
+  "version": "0.1",
+
+  "description": "This extension for Firefox aims to redirect all requests made to Youtube over to an Invidous instance.",
+  
+  "icons": {
+    "48": "icons/invidoucious-48.ico"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "run_at": "document_start",
+      "js": ["invidiouscious.js"]
+    }
+  ]
+
+}
