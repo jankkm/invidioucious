@@ -1,1 +1,2 @@
-This extension for Firefox aims to redirect all requests made to Youtube over to an Invidous instance.
+# invidioucious
+An extension for Firefox that redirects all requests from Youtube to Invidious
