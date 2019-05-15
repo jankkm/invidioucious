@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+
+  <body>
+
+    <form>
+        <p><label>URL of Invidious <a href="https://github.com/omarroth/invidious/wiki/Invidious-Instances">server</a> <input type="text" id="url" ></label></p>
+        <p><label>Force dark mode <select id="darkmode"><option value="on">On</option><option value="off">Off</option></select></label></p>
+        <p><label>DASH (Dynamic Streaming <select id="quality"><option value="on">On</option><option value="off">Off</option></select></label></p>
+        <p><label>Other <a href="https://github.com/omarroth/invidious/wiki/List-of-URL-parameters">properties</a> (&xxx=yyy&aaa=bbb) <input type="text" id="other" ></label><label id="warning" style="color:red;display:none"> Other should start with a '&'!</label></p>
+        <button id="submitbutton" type="submit">Save</button><label id="saved" style="color:green;display:none"> saved</label>
+    </form>
+
+    <script src="options.js"></script>
+
+  </body>
+
+</html>
