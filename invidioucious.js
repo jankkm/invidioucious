@@ -33,13 +33,21 @@ function onGot(item) {
 	}
 
 	if ( item.settings.darkmode == "on") {
-		newurl=newurl+"&dark_mode=true"
+		newurl=newurl+"&dark_mode=true";
 	}
-	if ( item.settings.quality == "on") {
-		newurl=newurl+"&quality=dash"
+	if ( item.settings.thinmode == "on") {
+		newurl=newurl+"&thin_mode=true";
+	}
+	if ( item.settings.quality == "dash") {
+		newurl=newurl+"&quality=dash";
+	} else {
+		newurl=newurl+"&quality=720p";
 	}
 	if ( item.settings.other != "") {
-		newurl=newurl+item.settings.other
+		newurl=newurl+item.settings.other;
+	}
+	if ( item.settings.proxy == "on") {
+		newurl=newurl+"&local=true";
 	}
 
 	window.location=newurl;

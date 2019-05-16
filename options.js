@@ -8,7 +8,9 @@ function saveOptions(e) {
     settings: { 
       url: document.querySelector("#url").value,
       darkmode: document.querySelector("#darkmode").value,
+      thinmode: document.querySelector("#thinmode").value,
       quality: document.querySelector("#quality").value,
+      proxy: document.querySelector("proxy").value,
       other: document.querySelector("#other").value
     }
   });
@@ -30,7 +32,9 @@ function restoreOptions() {
   function setCurrentChoice(result) {
     document.querySelector("#url").value = result.settings.url || "invidio.us";
     document.getElementById("darkmode").value = result.settings.darkmode || "off";
-    document.getElementById("quality").value = result.settings.quality || "off";
+    document.getElementById("thinmode").value = result.settings.thinmode || "off";
+    document.getElementById("quality").value = result.settings.quality || "720p";
+    document.getElementById("proxy").value = result.settings.quality || "off";
     document.querySelector("#other").value = result.settings.other || "";
   }
 

@@ -7,7 +7,7 @@
   "description": "This extension for Firefox aims to redirect all requests made to Youtube to an Invidous instance.",
   
   "icons": {
-    "48": "icons/invidoucious-48.ico"
+    "48": "icons/invidioucious-48.ico"
   },
 
   "content_scripts": [

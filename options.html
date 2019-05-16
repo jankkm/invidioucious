@@ -9,8 +9,10 @@
 
     <form>
         <p><label>URL of Invidious <a href="https://github.com/omarroth/invidious/wiki/Invidious-Instances">server</a> <input type="text" id="url" ></label></p>
-        <p><label>Force dark mode <select id="darkmode"><option value="on">On</option><option value="off">Off</option></select></label></p>
-        <p><label>DASH (Dynamic Streaming <select id="quality"><option value="on">On</option><option value="off">Off</option></select></label></p>
+        <p><label>Dark mode <select id="darkmode"><option value="on">On</option><option value="off">Off</option></select></label></p>
+        <p><label>Thin mode <select id="thinmode"><option value="on">On</option><option value="off">Off</option></select></label></p>
+        <p><label>Quality <select id="quality"><option value="720p">720p</option><option value="DASH">DASH</option></select></label></p>
+        <p><label>Proxy video <select id="proxy"><option value="on">On</option><option value="off">Off</option></select></label></p>
         <p><label>Other <a href="https://github.com/omarroth/invidious/wiki/List-of-URL-parameters">properties</a> (&xxx=yyy&aaa=bbb) <input type="text" id="other" ></label><label id="warning" style="color:red;display:none"> Other should start with a '&'!</label></p>
         <button id="submitbutton" type="submit">Save</button><label id="saved" style="color:green;display:none"> saved</label>
     </form>
