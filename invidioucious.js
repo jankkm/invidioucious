@@ -1,4 +1,3 @@
-var baseurl = "invidio.us"
 let gettingItem = browser.storage.sync.get();
 gettingItem.then(onGot, onError);
 
@@ -7,8 +6,12 @@ function onError(error) {
 }
 
 function onGot(item) {
-	baseurl = item.settings.url;
-
+	if (item.settings.url.includes(".")) {
+		baseurl = item.settings.url;
+	} else {
+		baseurl = "invidio.us";
+	}
+	
 	var currurl = window.location.href;
 	var newurl = currurl;
 
