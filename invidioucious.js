@@ -50,7 +50,7 @@ function onGot(item) {
 			if ( item.settings.quality == "dash") {
 				newurl=newurl+"&quality=dash";
 			} else {
-				newurl=newurl+"&quality=720p";
+				newurl=newurl+"&quality=hd720";
 			}
 			if ( item.settings.other != "") {
 				newurl=newurl+item.settings.other;
