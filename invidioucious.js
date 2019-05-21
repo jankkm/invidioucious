@@ -2,14 +2,20 @@ let gettingItem = browser.storage.sync.get();
 gettingItem.then(onGot, onError);
 
 function onError(error) {
-  console.log(`Error: ${error}`);
+	console.log(`Error: ${error}`);
 }
 
 function onGot(item) {
-	if (item.settings.url_override.includes(".")) {
-		baseurl = item.settings.url_override;
+	if (typeof item.settings === "object") {
+		var nosettings=false
+		if (item.settings.url_override.includes(".")) {
+			baseurl = item.settings.url_override;
+		} else {
+			baseurl = item.settings.url;
+		}
 	} else {
-		baseurl = item.settings.url;
+		var nosettings=true
+		baseurl="invidio.us";
 	}
 	
 	var currurl = window.location.href;
@@ -34,23 +40,24 @@ function onGot(item) {
 		if(newurl.includes("/results?search_query")){
 		    newurl=newurl.replace("/results?search_query", "/search?q");
 		}
-
-		if ( item.settings.darkmode == "on") {
-			newurl=newurl+"&dark_mode=true";
-		}
-		if ( item.settings.thinmode == "on") {
-			newurl=newurl+"&thin_mode=true";
-		}
-		if ( item.settings.quality == "dash") {
-			newurl=newurl+"&quality=dash";
-		} else {
-			newurl=newurl+"&quality=720p";
-		}
-		if ( item.settings.other != "") {
-			newurl=newurl+item.settings.other;
-		}
-		if ( item.settings.proxy == "on") {
-			newurl=newurl+"&local=true";
+		if (!nosettings) {
+			if ( item.settings.darkmode == "on") {
+				newurl=newurl+"&dark_mode=true";
+			}
+			if ( item.settings.thinmode == "on") {
+				newurl=newurl+"&thin_mode=true";
+			}
+			if ( item.settings.quality == "dash") {
+				newurl=newurl+"&quality=dash";
+			} else {
+				newurl=newurl+"&quality=720p";
+			}
+			if ( item.settings.other != "") {
+				newurl=newurl+item.settings.other;
+			}
+			if ( item.settings.proxy == "on") {
+				newurl=newurl+"&local=true";
+			}
 		}
 		window.location=newurl;
 	} else if ((!newurl.includes("&dark_mode") && newurl.length > 30 && !document.cookie.includes("dark_mode")) || item.temp.deletecookie == "true" ) {
