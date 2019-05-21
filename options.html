@@ -8,13 +8,17 @@
   <body>
 
     <form>
-        <p><label>URL of Invidious <a href="https://github.com/omarroth/invidious/wiki/Invidious-Instances">server</a> <input type="text" id="url" ></label></p>
-        <p><label>Dark mode <select id="darkmode"><option value="on">On</option><option value="off">Off</option></select></label></p>
-        <p><label>Thin mode <select id="thinmode"><option value="on">On</option><option value="off">Off</option></select></label></p>
-        <p><label>Quality <select id="quality"><option value="720p">720p</option><option value="dash">DASH</option></select></label></p>
-        <p><label>Proxy video <select id="proxy"><option value="on">On</option><option value="off">Off</option></select></label></p>
-        <p><label>Other <a href="https://github.com/omarroth/invidious/wiki/List-of-URL-parameters">properties</a> (&xxx=yyy&aaa=bbb) <input type="text" id="other" ></label><label id="warning" style="color:red;display:none"> Other should start with a '&'!</label></p>
-        <button id="submitbutton" type="submit">Save</button><label id="saved" style="color:green;display:none"> saved</label>
+      <p><label>You can choose from the official list of Invidious instances or put in your own. Please note that some features like setting a cookie with the settings only works with the instances given in the list.</label></p>
+      <p><label>URL of Invidious <a href="https://github.com/omarroth/invidious/wiki/Invidious-Instances">server</a> <select id="url"><option value="invidio.us">invidio.us</option><option value="invidious.snopyta.org">invidious.snopyta.org</option><option value="vid.wxzm.sx">vid.wxzm.sx</option><option value="invidious.kabi.tk">invidious.kabi.tk</option><option value="invidiou.sh">invidiou.sh</option><option value="invidious.enkirton.net">invidious.enkirton.net</option><option value="tube.poal.co">tube.poal.co</option><option value="fz253lmuao3strwbfbmx46yu7acac2jz27iwtorgmbqlkurlclmancad.onion">fz253lmuao3strwbfbmx46yu7acac2jz27iwtorgmbqlkurlclmancad.onion</option><option value="qklhadlycap4cnod.onion">qklhadlycap4cnod.onion</option><option value="c7hqkpkpemu6e7emz5b4vyz7idjgdvgaaa3dyimmeojqbgpea3xqjoid.onion">c7hqkpkpemu6e7emz5b4vyz7idjgdvgaaa3dyimmeojqbgpea3xqjoid.onion</option></select></label></p>
+      <p><label>Server URL override <input type="text" id="url_override" ></label></p>
+      <p><label>Dark mode <select id="darkmode"><option value="on">On</option><option value="off">Off</option></select></label></p>
+      <p><label>Thin mode <select id="thinmode"><option value="on">On</option><option value="off">Off</option></select></label></p>
+      <p><label>Quality <select id="quality"><option value="720p">720p</option><option value="dash">DASH</option></select></label></p>
+      <p><label>Proxy video (no connection to youtube/google) <select id="proxy"><option value="on">On</option><option value="off">Off</option></select></label></p>
+      <p><label>Other <a href="https://github.com/omarroth/invidious/wiki/List-of-URL-parameters">properties</a> (&xxx=yyy&aaa=bbb) <input type="text" id="other" ></label><label id="warning" style="color:red;display:none"> Other should start with a '&'!</label></p>
+      <p><label>Use a cookie to save the settings <input type="checkbox" id="usecookie" value="yyy"></label></p>
+      <p><label>Without a cookie the addon will use a redirect on Invidious to preserve the settings. Currently the "Other" settings are not saved in the cookie.</label></p>
+      <button id="submitbutton" type="submit">Save</button><label id="saved" style="color:green;display:none"> saved</label>
     </form>
 
     <script src="options.js"></script>
