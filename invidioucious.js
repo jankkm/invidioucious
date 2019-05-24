@@ -42,7 +42,7 @@ function onGot(item) {
 			    }
 			});
 			if (item.settings.usecookie == true) {
-				document.cookie = "PREFS=%7B%22video_loop%22%3Afalse%2C%22autoplay%22%3Afalse%2C%22continue%22%3Afalse%2C%22listen%22%3Afalse%2C%22local%22%3A"+settings.proxy+"%2C%22speed%22%3A1.0%2C%22quality%22%3A%22"+settings.quality+"%22%2C%22volume%22%3A100%2C%22comments%22%3A%5B%22youtube%22%2C%22%22%5D%2C%22captions%22%3A%5B%22%22%2C%22%22%2C%22%22%5D%2C%22related_videos%22%3Atrue%2C%22redirect_feed%22%3Afalse%2C%22locale%22%3A%22en-US%22%2C%22dark_mode%22%3A"+settings.darkmode+"%2C%22thin_mode%22%3A"+settings.thinmode+"%2C%22max_results%22%3A40%2C%22sort%22%3A%22published%22%2C%22latest_only%22%3Afalse%2C%22unseen_only%22%3Afalse%2C%22notifications_only%22%3Afalse%7D";
+				//document.cookie = "PREFS=%7B%22video_loop%22%3Afalse%2C%22autoplay%22%3Afalse%2C%22continue%22%3Afalse%2C%22listen%22%3Afalse%2C%22local%22%3A"+settings.proxy+"%2C%22speed%22%3A1.0%2C%22quality%22%3A%22"+settings.quality+"%22%2C%22volume%22%3A100%2C%22comments%22%3A%5B%22youtube%22%2C%22%22%5D%2C%22captions%22%3A%5B%22%22%2C%22%22%2C%22%22%5D%2C%22related_videos%22%3Atrue%2C%22redirect_feed%22%3Afalse%2C%22locale%22%3A%22en-US%22%2C%22dark_mode%22%3A"+settings.darkmode+"%2C%22thin_mode%22%3A"+settings.thinmode+"%2C%22max_results%22%3A40%2C%22sort%22%3A%22published%22%2C%22latest_only%22%3Afalse%2C%22unseen_only%22%3Afalse%2C%22notifications_only%22%3Afalse%7D";
 				var forcereload=true
 			} else {
 				document.cookie = 'PREFS=invidioucious;max-age=10';
@@ -60,7 +60,7 @@ function onGot(item) {
 	    newurl=newurl.replace("/results?search_query", "/search?q");
 	}
 	if (!noparameter && !newurl.includes("quality")) {
-		newurl=newurl+settings.parameter;
+		newurl=newurl//+settings.parameter;
 	}
 	if (currurl != newurl && !(noparameter)) {
 		window.location=newurl;
