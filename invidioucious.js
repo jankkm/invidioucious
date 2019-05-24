@@ -50,17 +50,15 @@ function onGot(item) {
 	var currurl = window.location.href;
 	var newurl = currurl;
 	
-	if(newurl.includes("m.youtube.com")){
+	if(newurl.includes("youtube.com")|| newurl.includes("youtube-nocookie.com")){
 	    newurl=newurl.replace("m.youtube.com", baseurl);
-	}
-	else if (newurl.includes("youtube")){
-		newurl=newurl.replace("www.youtube.com", baseurl);
+	    newurl=newurl.replace("www.youtube.com", baseurl);
+	    newurl=newurl.replace("www.youtube-nocookie.com", baseurl);
+	    newurl=newurl.replace("youtube-nocookie.com", baseurl);
+	    newurl=newurl.replace("youtube.com", baseurl);
 	}
 	else if (newurl.includes("youtu.be/")){
 		newurl=newurl.replace("youtu.be/", baseurl + "/watch?v=");
-	}
-	else if (newurl.includes("youtube-nocookie")){
-		newurl=newurl.replace("youtube-nocookie.com/", baseurl + "/");
 	}
 	else if (newurl.includes(baseurl)) {
 		if (!(nosettings) && document.cookie.includes("dark_mode") && !(item.temp.deletecookie == "true")) {
