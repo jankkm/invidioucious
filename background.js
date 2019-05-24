@@ -13,18 +13,28 @@ function getsettings() {
 		if (typeof item.settings === "object") {
 			settings=item.settings
 		} else {
-			settings = {
+			var currsettings = {
 				url: "invidio.us",
+				baseurl: "invidio.us",
 				url_override: "",
 				darkmode: false,
 				thinmode: false,
 				quality: "hd720",
 				proxy: false,
 				other: "",
-				usecookie: false,
-				parameter: "",
-				cookie: ""
-			};
+				usecookie: true,
+				parameter: "&dark_mode=false&thin_mode=false&quality=hd720&local=false",
+				cookie: "PREFS=%7B%22video_loop%22%3Afalse%2C%22autoplay%22%3Afalse%2C%22continue%22%3Afalse%2C%22listen%22%3Afalse%2C%22local%22%3Afalse%2C%22speed%22%3A1.0%2C%22quality%22%3A%22hd720%22%2C%22volume%22%3A100%2C%22comments%22%3A%5B%22youtube%22%2C%22%22%5D%2C%22captions%22%3A%5B%22%22%2C%22%22%2C%22%22%5D%2C%22related_videos%22%3Atrue%2C%22redirect_feed%22%3Afalse%2C%22locale%22%3A%22en-US%22%2C%22dark_mode%22%3Afalse%2C%22thin_mode%22%3Afalse%2C%22max_results%22%3A40%2C%22sort%22%3A%22published%22%2C%22latest_only%22%3Afalse%2C%22unseen_only%22%3Afalse%2C%22notifications_only%22%3Afalse%7D"
+			}
+			browser.storage.local.set({
+			    settings: currsettings,
+			    temp: { deletecookie: true }
+			});
+			browser.storage.sync.set({
+			    settings: currsettings,
+			    temp: { deletecookie: true }
+			});
+			settings = currsettings;
 		}
 		if (settings.url_override.includes(".")) {
 			baseurl=settings.url_override;
