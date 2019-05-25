@@ -16,7 +16,7 @@
       <p><label>Quality <select id="quality"><option value="hd720">720p</option><option value="dash">DASH</option></select></label></p>
       <p><label>Proxy video<input type="checkbox" id="proxy"> (prevent connections to youtube/google)</label></p>
       <p><label>Other <a href="https://github.com/omarroth/invidious/wiki/List-of-URL-parameters">properties</a> (&xxx=yyy&aaa=bbb) <input type="text" id="other" ></label><label id="warning" style="color:red;display:none"> Other should start with a '&'!</label></p>
-      <p><label>Send cookie information instad of url arguments <input type="checkbox" id="usecookie"> (not working for "other" settings)</label></p>
+      <p><label>Send cookie information instad of url arguments <input type="checkbox" id="usecookie"> ("other" settings are ignored; no actual cookie is saved in the browser)</label></p>
       <p><label></label></p>
       <button id="submitbutton" type="submit">Save</button><label id="saved" style="color:green;display:none"> saved</label>
     </form>
