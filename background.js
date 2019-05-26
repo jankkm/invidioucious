@@ -44,7 +44,7 @@ function getsettings() {
 	}
 }
 
-function redirect_youtube(requestDetails) {
+function redirect(requestDetails) {
 	var currurl=requestDetails.url;
 	var newurl=currurl;
 	if(newurl.includes("youtube.com") || newurl.includes("youtube-nocookie.com")){
@@ -53,42 +53,25 @@ function redirect_youtube(requestDetails) {
     	newurl=newurl.replace("www.youtube-nocookie.com", settings.baseurl);
     	newurl=newurl.replace("youtube-nocookie.com", settings.baseurl);
     	newurl=newurl.replace("youtube.com", settings.baseurl);
+    	newurl=newurl.replace("/results?q", "/search?q");
+    	newurl=newurl.replace("/results?search_query", "/search?q");
 	} else if (newurl.includes("youtu.be/")){
 		newurl=newurl.replace("youtu.be/", settings.baseurl + "/watch?v=");
-	}
-	if (newurl.includes("/results?q")) {
-	    newurl=newurl.replace("/results?q", "/search?q");
-	}
-	if (newurl.includes("/results?search_query")) {
-	    newurl=newurl.replace("/results?search_query", "/search?q");
-	}
-	if (!settings.usecookie) {
-		newurl=newurl+settings.parameter;
-  	}
- 	//newurl=newurl+settings.parameter
-  	return {
-    	redirectUrl: newurl
-  	};
-}
-
-function redirect_invidious(requestDetails) {
-	var currurl=requestDetails.url;
-	var newurl=currurl;
-	if (!settings.usecookie && !newurl.includes("quality")) {
-		console.log(newurl);
-		console.log(settings.baseurl);
+	} else if (currurl.includes(baseurl) && !settings.usecookie && !newurl.includes("&quality=")) {
 		if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 5)) {
 			newurl=newurl+"/?";
 		} else if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 4)+"/") {
 			newurl=newurl+"?";
 		}
-		newurl=newurl+settings.parameter;
 	}
-	if (currurl != newurl) {
+	if (!settings.usecookie && !newurl.includes("&quality=")) {
+			newurl=newurl+settings.parameter;
+	  	}
+ 	if (currurl != newurl) {
 	  	return {
 	    	redirectUrl: newurl
 	  	};
-	  }
+	}
 }
 
 function check_settings () {
@@ -97,7 +80,7 @@ function check_settings () {
 
 function cookie_header(e) {
 	var cookieslot = Object.keys(e.requestHeaders).length;
-	if (settings.usecookie) {
+	if (e.url.includes(baseurl) && settings.usecookie) {
 		e.requestHeaders.forEach(function(header){
 			if (header.name.toLowerCase() == "cookie") {
 				console.log("found cookie");
@@ -110,19 +93,13 @@ function cookie_header(e) {
 		 		value: settings.cookie
 		 	});
 		}
+		return {requestHeaders: e.requestHeaders};
 	}
-	return {requestHeaders: e.requestHeaders};
 }
 
 browser.webRequest.onBeforeRequest.addListener(
-	redirect_youtube,
-	{urls:["*://*.youtube.com/*", "*://*.youtube-nocookie.com/*", "*://*.youtu.be/*"]},
-	["blocking"]
-);
-
-browser.webRequest.onBeforeRequest.addListener(
-	redirect_invidious,
-	{urls:["*://*."+baseurl+"/*"], types: ["main_frame"]},
+	redirect,
+	{urls:["<all_urls>"], types: ["main_frame"]},
 	["blocking"]
 );
 
@@ -130,6 +107,6 @@ browser.storage.onChanged.addListener(check_settings);
 
 browser.webRequest.onBeforeSendHeaders.addListener(
   cookie_header,
-  {urls: ["*://*."+baseurl+"/*"], types: ["main_frame"]},
+  {urls: ["<all_urls>"], types: ["main_frame"]},
   ["blocking", "requestHeaders"]
 );
