@@ -1,5 +1,6 @@
 var settings = "";
 var baseurl="";
+var disabled=false
 getsettings();
 function getsettings() {
 	let gettingItem = browser.storage.local.get();
@@ -45,32 +46,34 @@ function getsettings() {
 }
 
 function redirect(requestDetails) {
-	var currurl=requestDetails.url;
-	var newurl=currurl;
-	if(newurl.includes("youtube.com") || newurl.includes("youtube-nocookie.com")){
-    	newurl=newurl.replace("m.youtube.com", settings.baseurl);
-    	newurl=newurl.replace("www.youtube.com", settings.baseurl);
-    	newurl=newurl.replace("www.youtube-nocookie.com", settings.baseurl);
-    	newurl=newurl.replace("youtube-nocookie.com", settings.baseurl);
-    	newurl=newurl.replace("youtube.com", settings.baseurl);
-    	newurl=newurl.replace("/results?q", "/search?q");
-    	newurl=newurl.replace("/results?search_query", "/search?q");
-	} else if (newurl.includes("youtu.be/")){
-		newurl=newurl.replace("youtu.be/", settings.baseurl + "/watch?v=");
-	} else if (currurl.includes(settings.baseurl) && !settings.usecookie && !newurl.includes("&quality=")) {
-		if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 5)) {
-			newurl=newurl+"/?";
-		} else if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 4)+"/") {
-			newurl=newurl+"?";
+	if (!disabled){
+		var currurl=requestDetails.url;
+		var newurl=currurl;
+		if(newurl.includes("youtube.com") || newurl.includes("youtube-nocookie.com")){
+	    	newurl=newurl.replace("m.youtube.com", settings.baseurl);
+	    	newurl=newurl.replace("www.youtube.com", settings.baseurl);
+	    	newurl=newurl.replace("www.youtube-nocookie.com", settings.baseurl);
+	    	newurl=newurl.replace("youtube-nocookie.com", settings.baseurl);
+	    	newurl=newurl.replace("youtube.com", settings.baseurl);
+	    	newurl=newurl.replace("/results?q", "/search?q");
+	    	newurl=newurl.replace("/results?search_query", "/search?q");
+		} else if (newurl.includes("youtu.be/")){
+			newurl=newurl.replace("youtu.be/", settings.baseurl + "/watch?v=");
+		} else if (currurl.includes(settings.baseurl) && !settings.usecookie && !newurl.includes("&quality=")) {
+			if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 5)) {
+				newurl=newurl+"/?";
+			} else if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 4)+"/") {
+				newurl=newurl+"?";
+			}
 		}
-	}
-	if (!settings.usecookie && !newurl.includes("&quality=")) {
-			newurl=newurl+settings.parameter;
-	  	}
- 	if (currurl != newurl) {
-	  	return {
-	    	redirectUrl: newurl
-	  	};
+		if (!settings.usecookie && !newurl.includes("&quality=")) {
+				newurl=newurl+settings.parameter;
+		  	}
+	 	if (currurl != newurl) {
+		  	return {
+		    	redirectUrl: newurl
+		  	};
+		}
 	}
 }
 
@@ -79,22 +82,35 @@ function check_settings () {
 }
 
 function cookie_header(e) {
-	var cookieslot = Object.keys(e.requestHeaders).length;
-	if (e.url.includes(settings.baseurl) && settings.usecookie) {
-		e.requestHeaders.forEach(function(header){
-			if (header.name.toLowerCase() == "cookie") {
-				console.log("found cookie");
-				header.value = settings.cookie;
+	if (!disabled) {
+		var cookieslot = Object.keys(e.requestHeaders).length;
+		if (e.url.includes(settings.baseurl) && settings.usecookie) {
+			e.requestHeaders.forEach(function(header){
+				if (header.name.toLowerCase() == "cookie") {
+					console.log("found cookie");
+					header.value = settings.cookie;
+				}
+			});
+			if (!e.requestHeaders.includes("Cookie")) {
+			 	e.requestHeaders[cookieslot] = ({
+			 		name: "Cookie",
+			 		value: settings.cookie
+			 	});
 			}
-		});
-		if (!e.requestHeaders.includes("Cookie")) {
-		 	e.requestHeaders[cookieslot] = ({
-		 		name: "Cookie",
-		 		value: settings.cookie
-		 	});
+			return {requestHeaders: e.requestHeaders};
 		}
-		return {requestHeaders: e.requestHeaders};
 	}
+}
+
+function buttonClicked() {
+	if(!disabled) {
+		disabled=true;
+		browser.browserAction.setBadgeText({text: "Off"});
+	} else {
+		disabled=false;
+		browser.browserAction.setBadgeText({text: ""});
+	}
+	
 }
 
 browser.webRequest.onBeforeRequest.addListener(
@@ -110,3 +126,5 @@ browser.webRequest.onBeforeSendHeaders.addListener(
   {urls: ["<all_urls>"], types: ["main_frame"]},
   ["blocking", "requestHeaders"]
 );
+
+browser.browserAction.onClicked.addListener(buttonClicked);
