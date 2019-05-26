@@ -39,8 +39,8 @@ function getsettings() {
 			    temp: { deletecookie: true }
 			});
 			settings = currsettings;
-			baseurl = settings.baseurl;
 		}
+		baseurl = settings.baseurl;
 	}
 }
 
@@ -57,7 +57,7 @@ function redirect(requestDetails) {
     	newurl=newurl.replace("/results?search_query", "/search?q");
 	} else if (newurl.includes("youtu.be/")){
 		newurl=newurl.replace("youtu.be/", settings.baseurl + "/watch?v=");
-	} else if (currurl.includes(baseurl) && !settings.usecookie && !newurl.includes("&quality=")) {
+	} else if (currurl.includes(settings.baseurl) && !settings.usecookie && !newurl.includes("&quality=")) {
 		if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 5)) {
 			newurl=newurl+"/?";
 		} else if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 4)+"/") {
@@ -80,7 +80,7 @@ function check_settings () {
 
 function cookie_header(e) {
 	var cookieslot = Object.keys(e.requestHeaders).length;
-	if (e.url.includes(baseurl) && settings.usecookie) {
+	if (e.url.includes(settings.baseurl) && settings.usecookie) {
 		e.requestHeaders.forEach(function(header){
 			if (header.name.toLowerCase() == "cookie") {
 				console.log("found cookie");
