@@ -1,5 +1,5 @@
 var settings = "";
-var baseurl = "";
+var baseurl="";
 getsettings();
 function getsettings() {
 	let gettingItem = browser.storage.local.get();
@@ -15,15 +15,19 @@ function getsettings() {
 		} else {
 			var currsettings = {
 				url: "invidio.us",
-				baseurl: "invidio.us",
 				url_override: "",
+				baseurl: "invidio.us",
 				darkmode: false,
 				thinmode: false,
+				alwaysloop: false,
+				autoplay: false,
+				autoplaynext: false,
+				listenbydefault: false,
 				quality: "hd720",
 				proxy: false,
 				other: "",
 				usecookie: true,
-				parameter: "&dark_mode=false&thin_mode=false&quality=hd720&local=false",
+				parameter: "",
 				cookie: "PREFS=%7B%22video_loop%22%3Afalse%2C%22autoplay%22%3Afalse%2C%22continue%22%3Afalse%2C%22listen%22%3Afalse%2C%22local%22%3Afalse%2C%22speed%22%3A1.0%2C%22quality%22%3A%22hd720%22%2C%22volume%22%3A100%2C%22comments%22%3A%5B%22youtube%22%2C%22%22%5D%2C%22captions%22%3A%5B%22%22%2C%22%22%2C%22%22%5D%2C%22related_videos%22%3Atrue%2C%22redirect_feed%22%3Afalse%2C%22locale%22%3A%22en-US%22%2C%22dark_mode%22%3Afalse%2C%22thin_mode%22%3Afalse%2C%22max_results%22%3A40%2C%22sort%22%3A%22published%22%2C%22latest_only%22%3Afalse%2C%22unseen_only%22%3Afalse%2C%22notifications_only%22%3Afalse%7D"
 			}
 			browser.storage.local.set({
@@ -35,12 +39,7 @@ function getsettings() {
 			    temp: { deletecookie: true }
 			});
 			settings = currsettings;
-		}
-		if (settings.url_override.includes(".")) {
-			baseurl=settings.url_override;
-			//settings["usecookie"] = false;
-		} else {
-			baseurl=settings.url;
+			baseurl = settings.baseurl;
 		}
 	}
 }
@@ -49,13 +48,13 @@ function redirect_youtube(requestDetails) {
 	var currurl=requestDetails.url;
 	var newurl=currurl;
 	if(newurl.includes("youtube.com") || newurl.includes("youtube-nocookie.com")){
-    	newurl=newurl.replace("m.youtube.com", baseurl);
-    	newurl=newurl.replace("www.youtube.com", baseurl);
-    	newurl=newurl.replace("www.youtube-nocookie.com", baseurl);
-    	newurl=newurl.replace("youtube-nocookie.com", baseurl);
-    	newurl=newurl.replace("youtube.com", baseurl);
+    	newurl=newurl.replace("m.youtube.com", settings.baseurl);
+    	newurl=newurl.replace("www.youtube.com", settings.baseurl);
+    	newurl=newurl.replace("www.youtube-nocookie.com", settings.baseurl);
+    	newurl=newurl.replace("youtube-nocookie.com", settings.baseurl);
+    	newurl=newurl.replace("youtube.com", settings.baseurl);
 	} else if (newurl.includes("youtu.be/")){
-		newurl=newurl.replace("youtu.be/", baseurl + "/watch?v=");
+		newurl=newurl.replace("youtu.be/", settings.baseurl + "/watch?v=");
 	}
 	if (newurl.includes("/results?q")) {
 	    newurl=newurl.replace("/results?q", "/search?q");
@@ -77,10 +76,10 @@ function redirect_invidious(requestDetails) {
 	var newurl=currurl;
 	if (!settings.usecookie && !newurl.includes("quality")) {
 		console.log(newurl);
-		console.log(baseurl);
-		if (newurl.substr(newurl.length - 5) == baseurl.substr(baseurl.length - 5)) {
+		console.log(settings.baseurl);
+		if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 5)) {
 			newurl=newurl+"/?";
-		} else if (newurl.substr(newurl.length - 5) == baseurl.substr(baseurl.length - 4)+"/") {
+		} else if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 4)+"/") {
 			newurl=newurl+"?";
 		}
 		newurl=newurl+settings.parameter;
