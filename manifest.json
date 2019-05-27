@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Invidioucious",
-  "version": "0.9.1",
+  "version": "0.9.2",
 
   "description": "This extension for Firefox aims to redirect all requests made to Youtube to an Invidious instance.",
   
@@ -26,7 +26,6 @@
     "page": "options.html"
   },
 
-  //"permissions": ["storage", "webRequest","webRequestBlocking", "*://*.youtube.com/*", "*://*.youtube-nocookie.com/*", "*://*.youtu.be/*", "*://invidious.snopyta.org/*", "*://vid.wxzm.sx/*", "*://invidious.kabi.tk/*", "*://invidiou.sh/*", "*://invidious.enkirton.net/*", "*://tube.poal.co/*", "*://fz253lmuao3strwbfbmx46yu7acac2jz27iwtorgmbqlkurlclmancad.onion/*", "*://qklhadlycap4cnod.onion/*", "*://c7hqkpkpemu6e7emz5b4vyz7idjgdvgaaa3dyimmeojqbgpea3xqjoid.onion/*"],
   "permissions": ["storage", "webRequest","webRequestBlocking", "<all_urls>"],
 
   "applications": {
