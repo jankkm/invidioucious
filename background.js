@@ -46,7 +46,9 @@ function redirect(requestDetails) {
 	if (!disabled){
 		var currurl=requestDetails.url;
 		var newurl=currurl;
+		var yt=false;
 		if(newurl.includes("youtube.com") || newurl.includes("youtube-nocookie.com")){
+			yt=true;
 	    	newurl=newurl.replace("m.youtube.com", settings.baseurl);
 	    	newurl=newurl.replace("www.youtube.com", settings.baseurl);
 	    	newurl=newurl.replace("www.youtube-nocookie.com", settings.baseurl);
@@ -55,15 +57,17 @@ function redirect(requestDetails) {
 	    	newurl=newurl.replace("/results?q", "/search?q");
 	    	newurl=newurl.replace("/results?search_query", "/search?q");
 		} else if (newurl.includes("youtu.be/")){
+			yt=true;
 			newurl=newurl.replace("youtu.be/", settings.baseurl + "/watch?v=");
 		} else if (currurl.includes(settings.baseurl) && !settings.usecookie && !newurl.includes("&quality=")) {
+			yt=true;
 			if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 5)) {
 				newurl=newurl+"/?";
 			} else if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 4)+"/") {
 				newurl=newurl+"?";
 			}
 		}
-		if (!settings.usecookie && !newurl.includes("&quality=")) {
+		if (!settings.usecookie && !newurl.includes("&quality=") && yt) {
 				newurl=newurl+settings.parameter;
 		  	}
 	 	if (currurl != newurl) {
