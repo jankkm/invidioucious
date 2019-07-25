@@ -43,11 +43,13 @@ function getsettings() {
 }
 
 function redirect(requestDetails) {
-	if (!disabled){
+	if (!disabled) {
 		var currurl=requestDetails.url;
 		var newurl=currurl;
 		var yt=false;
-		if(newurl.includes("youtube.com") || newurl.includes("youtube-nocookie.com")){
+		if (newurl.includes("inv-redirect=0")) {
+			console.log("nothing");
+		} else if (newurl.includes("youtube.com") || newurl.includes("youtube-nocookie.com")){
 			yt=true;
 	    	newurl=newurl.replace("m.youtube.com", settings.baseurl);
 	    	newurl=newurl.replace("www.youtube.com", settings.baseurl);
