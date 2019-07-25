@@ -61,7 +61,7 @@ function restoreOptions() {
     document.getElementById("proxy").checked = result.settings.proxy || false;
     document.querySelector("#other").value = result.settings.other || "";
     //document.querySelector("#usecookie").checked = result.settings.usecookie || false;
-    document.getElementById("usecookie").checked = result.settings.usecookie || true;
+    document.getElementById("usecookie").checked = result.settings.usecookie || false;
   }
 
   function onError(error) {

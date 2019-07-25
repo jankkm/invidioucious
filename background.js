@@ -126,6 +126,32 @@ function buttonClicked() {
 	
 }
 
+
+function listener(details) {
+  let filter = browser.webRequest.filterResponseData(details.requestId);
+  let decoder = new TextDecoder("utf-8");
+  let encoder = new TextEncoder();
+
+  filter.ondata = event => {
+    let str = decoder.decode(event.data, {stream: true});
+    // Just change any instance of Example in the HTTP response
+    // to WebExtension Example.
+    str = str.replace(/src=\"https:\/\/www.youtube.com\/embed\//g, 'src=\"https:\/\/invidious.enkirton.net\/embed\/');
+    str = str.replace(/src=\"https:\/\/www.youtube-nocookie.com\/embed\//g, 'src=\"https:\/\/invidious.enkirton.net\/embed\/');
+    str = str.replace(/src=\"http:\/\/www.youtube.com\/embed\//g, 'src=\"https:\/\/invidious.enkirton.net\/embed\/');
+    str = str.replace(/src=\"http:\/\/www.youtube-nocookie.com\/embed\//g, 'src=\"https:\/\/invidious.enkirton.net\/embed\/');
+    filter.write(encoder.encode(str));
+    filter.disconnect();
+  }
+  return {};
+}
+
+browser.webRequest.onBeforeRequest.addListener(
+  listener,
+  {urls: ["<all_urls>"], types: ["main_frame"]},
+  ["blocking"]
+);
+
 browser.webRequest.onBeforeRequest.addListener(
 	redirect,
 	{urls:["<all_urls>"], types: ["main_frame"]},
