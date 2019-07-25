@@ -136,10 +136,13 @@ function listener(details) {
     let str = decoder.decode(event.data, {stream: true});
     // Just change any instance of Example in the HTTP response
     // to WebExtension Example.
-    str = str.replace(/src=\"https:\/\/www.youtube.com\/embed\//g, 'src=\"https:\/\/invidious.enkirton.net\/embed\/');
-    str = str.replace(/src=\"https:\/\/www.youtube-nocookie.com\/embed\//g, 'src=\"https:\/\/invidious.enkirton.net\/embed\/');
-    str = str.replace(/src=\"http:\/\/www.youtube.com\/embed\//g, 'src=\"https:\/\/invidious.enkirton.net\/embed\/');
-    str = str.replace(/src=\"http:\/\/www.youtube-nocookie.com\/embed\//g, 'src=\"https:\/\/invidious.enkirton.net\/embed\/');
+    var replacement = 'src=\"https:\/\/'+settings.baseurl+'\/embed\/'
+    str = str.replace(/src=\"https:\/\/www.youtube.com\/embed\//g, replacement);
+    str = str.replace(/src=\"https:\/\/www.youtube-nocookie.com\/embed\//g, replacement);
+    str = str.replace(/src=\"http:\/\/www.youtube.com\/embed\//g, replacement);
+    str = str.replace(/src=\"http:\/\/www.youtube-nocookie.com\/embed\//g, replacement);
+    //var strArray = str.split(replacement);
+    //var strArrayLength = strArray.length;
     filter.write(encoder.encode(str));
     filter.disconnect();
   }
