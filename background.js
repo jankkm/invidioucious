@@ -128,25 +128,50 @@ function buttonClicked() {
 
 
 function listener(details) {
-  let filter = browser.webRequest.filterResponseData(details.requestId);
-  let decoder = new TextDecoder("utf-8");
-  let encoder = new TextEncoder();
+	let dot = details.url.slice(-5).substring(0,2);
+	let ext = details.url.slice(-3);
+	if (!disabled && (!dot.includes(".") && !ext.includes("htm") && !ext.includes("php") && !ext.includes("tml"))) {
+		let filter = browser.webRequest.filterResponseData(details.requestId);
+		let decoder = new TextDecoder("utf-8");
+		let encoder = new TextEncoder();
 
-  filter.ondata = event => {
-    let str = decoder.decode(event.data, {stream: true});
-    // Just change any instance of Example in the HTTP response
-    // to WebExtension Example.
-    var replacement = 'src=\"https:\/\/'+settings.baseurl+'\/embed\/'
-    str = str.replace(/src=\"https:\/\/www.youtube.com\/embed\//g, replacement);
-    str = str.replace(/src=\"https:\/\/www.youtube-nocookie.com\/embed\//g, replacement);
-    str = str.replace(/src=\"http:\/\/www.youtube.com\/embed\//g, replacement);
-    str = str.replace(/src=\"http:\/\/www.youtube-nocookie.com\/embed\//g, replacement);
-    //var strArray = str.split(replacement);
-    //var strArrayLength = strArray.length;
-    filter.write(encoder.encode(str));
-    filter.disconnect();
-  }
-  return {};
+		let str = "";
+  		filter.ondata = event => {
+    		str += decoder.decode(event.data, {stream: true});
+  		};
+
+		filter.onstop = event => {
+			// Just change any instance of Example in the HTTP response
+			// to WebExtension Example.
+			var replacement = '\/\/'+settings.baseurl+'\/embed\/';
+			str = str.replace(/\/\/www.youtube.com\/embed\//g, replacement);
+			str = str.replace(/\/\/www.youtube-nocookie.com\/embed\//g, replacement);
+			if (settings.proxy && str.includes(replacement)) {
+			    var strArray = str.split(replacement);
+			    var first = strArray[0];
+			    var lastEight = first.substr(first.length - 8);
+			    var marks = 2;
+			    if ( lastEight.includes("\"") ) {
+			    	marks = 2;
+			    } else if ( lastEight.includes("\'") ) {
+			    	marks = 1;
+			    }
+			    var strArrayLength = strArray.length;
+			    str = strArray[0]+replacement;
+			    for (var i = 1; i < strArray.length; i++) {
+			    	if ( marks == 1 ) {
+						str = str+strArray[i].replace(/\'/, "&local=true\'")+replacement;
+					} else if ( marks == 2 ) {
+						str = str+strArray[i].replace(/\"/, "&local=true\"")+replacement;
+					}
+				}
+				str = str.substring(0, str.length - replacement.length);
+			}
+			filter.write(encoder.encode(str));
+   			filter.close();
+		}
+		//return {};
+	}
 }
 
 browser.webRequest.onBeforeRequest.addListener(
