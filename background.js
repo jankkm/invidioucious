@@ -130,7 +130,7 @@ function buttonClicked() {
 function listener(details) {
 	let dot = details.url.slice(-5).substring(0,2);
 	let ext = details.url.slice(-3);
-	if (!disabled && (!dot.includes(".") && !ext.includes("htm") && !ext.includes("php") && !ext.includes("tml"))) {
+	if (!disabled && (!dot.includes(".") || (ext.includes("htm") || ext.includes("php") || ext.includes("tml") || ext.includes("/")))) {
 		let filter = browser.webRequest.filterResponseData(details.requestId);
 		let decoder = new TextDecoder("utf-8");
 		let encoder = new TextEncoder();
@@ -160,9 +160,9 @@ function listener(details) {
 			    str = strArray[0]+replacement;
 			    for (var i = 1; i < strArray.length; i++) {
 			    	if ( marks == 1 ) {
-						str = str+strArray[i].replace(/\'/, "&local=true\'")+replacement;
+						str = str+strArray[i].replace(/\'/, "&quality=dash&local=true\'")+replacement;
 					} else if ( marks == 2 ) {
-						str = str+strArray[i].replace(/\"/, "&local=true\"")+replacement;
+						str = str+strArray[i].replace(/\"/, "&quality=dash&local=true\"")+replacement;
 					}
 				}
 				str = str.substring(0, str.length - replacement.length);
