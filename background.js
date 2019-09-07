@@ -160,12 +160,25 @@ function listener(details) {
 			    str = strArray[0]+replacement;
 			    for (var i = 1; i < strArray.length; i++) {
 			    	if ( marks == 1 ) {
-						str = str+strArray[i].replace(/\'/, "&quality=dash&local=true\'")+replacement;
+			    		if (!strArray[i].substr(0,13).includes("\?")) {
+			    			str = str+strArray[i].replace(/\'/, "?quality=dash&local=true\'")+replacement;
+			    			str = str.replace(/\\\?quality=dash&local=true/, "\?quality=dash&local=true\\");
+			    		} else {
+							str = str+strArray[i].replace(/\'/, "&quality=dash&local=true\'")+replacement;
+							str = str.replace(/\\&quality=dash&local=true/, "&quality=dash&local=true\\");
+						}
 					} else if ( marks == 2 ) {
-						str = str+strArray[i].replace(/\"/, "&quality=dash&local=true\"")+replacement;
+						if (!strArray[i].substr(0,13).includes("\?")) {
+							str = str+strArray[i].replace(/\"/, "?quality=dash&local=true\"")+replacement;
+							str = str.replace(/\\\?quality=dash&local=true/, "\?quality=dash&local=true\\");
+						} else {
+							str = str+strArray[i].replace(/\"/, "&quality=dash&local=true\"")+replacement;
+							str = str.replace(/\\&quality=dash&local=true/, "&quality=dash&local=true\\");
+						}
 					}
 				}
-				str = str.substring(0, str.length - replacement.length);
+				//str = str.substring(0, str.length - replacement.length);
+				
 			}
 			filter.write(encoder.encode(str));
    			filter.close();
