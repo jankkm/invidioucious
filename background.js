@@ -177,7 +177,7 @@ function listener(details) {
 						}
 					}
 				}
-				//str = str.substring(0, str.length - replacement.length);
+				str = str.substring(0, str.length - replacement.length);
 				
 			}
 			filter.write(encoder.encode(str));
