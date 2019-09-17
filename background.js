@@ -30,6 +30,7 @@ function getsettings() {
 				autoplaynext: false,
 				listenbydefault: false,
 				quality: "hd720",
+				language: "en-US",
 				proxy: false,
 				other: "",
 				usecookie: true,
@@ -61,17 +62,16 @@ function redirect(requestDetails) {
 		} else if (newurl.includes("youtu.be/")){
 			yt=true;
 			newurl=newurl.replace("youtu.be/", settings.baseurl + "/watch?v=");
-		} else if (currurl.includes(settings.baseurl) && !settings.usecookie && !newurl.includes("&quality=")) {
-			yt=true;
-			if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 5)) {
-				newurl=newurl+"/?";
-			} else if (newurl.substr(newurl.length - 5) == settings.baseurl.substr(settings.baseurl.length - 4)+"/") {
-				newurl=newurl+"?";
+		}
+		if (currurl.includes(settings.baseurl) && !settings.usecookie && !newurl.includes("&quality=")) {
+			if (currurl.includes("watch?v=")) {
+				newurl=newurl+"&"+settings.parameter;
+			} else if (currurl.includes("/channel/")) {
+				newurl=newurl+"?"+settings.parameter;
+			} else {
+				newurl=newurl+"?"+settings.parameter;
 			}
 		}
-		if (!settings.usecookie && !newurl.includes("&quality=") && yt) {
-				newurl=newurl+settings.parameter;
-		  	}
 	 	if (currurl != newurl) {
 		  	return {
 		    	redirectUrl: newurl
@@ -111,7 +111,7 @@ function buttonClicked() {
 		browser.browserAction.setBadgeTextColor({color: "white"});
 		browser.browserAction.setBadgeBackgroundColor({color: "red"});
 		browser.browserAction.setBadgeText({text: "Off"});
-		browser.browserAction.setTitle({title: "Enable Invidious Redirect"});
+		browser.browserAction.setTitle({title: "Invidioucious"});
 	} else {
 		disabled=false;
 		browser.browserAction.setBadgeTextColor({color: "white"});
@@ -121,7 +121,7 @@ function buttonClicked() {
     		browser.browserAction.setBadgeBackgroundColor({color: "red"});
 			browser.browserAction.setBadgeText({text: ""});
 		});
-		browser.browserAction.setTitle({title: "Disable Invidious Redirect"});
+		browser.browserAction.setTitle({title: "Invidioucious"});
 	}
 	
 }

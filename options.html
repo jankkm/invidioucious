@@ -9,19 +9,22 @@
 
     <form>
       <p><label>Indvidioucious settings:</label></p>
-      <p><label>URL of Invidious <a href="https://github.com/omarroth/invidious/wiki/Invidious-Instances">server</a> <select id="url"><option value="invidio.us">invidio.us 🇺🇸</option><option value="fi.invidious.snopyta.org">fi.invidious.snopyta.org 🇫🇮</option><option value="de.invidious.snopyta.org">de.invidious.snopyta.org 🇩🇪</option><option value="vid.wxzm.sx">vid.wxzm.sx 🇳🇱</option><option value="invidious.kabi.tk">invidious.kabi.tk 🇫🇮</option><option value="invidiou.sh">invidiou.sh 🇳🇱</option><option value="no.invidiou.sh">no.invidiou.sh 🇳🇴</option><option value="invidious.enkirton.net">invidious.enkirton.net 🇩🇪</option><option value="tube.poal.co">tube.poal.co 🇺🇸</option><option value="invidious.13ad.de">invidious.13ad.de 🇩🇪</option></select></label></p>
-      <p><label>Server URL override <input type="text" id="url_override" > (used instead of selected)</label></p>
+      <p><label>URL of the Invidious <a href="https://github.com/omarroth/invidious/wiki/Invidious-Instances">server</a> <select id="url"><option value="invidio.us">invidio.us 🇺🇸</option><option value="fi.invidious.snopyta.org">fi.invidious.snopyta.org 🇫🇮</option><option value="de.invidious.snopyta.org">de.invidious.snopyta.org 🇩🇪</option><option value="vid.wxzm.sx">vid.wxzm.sx 🇳🇱</option><option value="invidious.kabi.tk">invidious.kabi.tk 🇫🇮</option><option value="invidiou.sh">invidiou.sh 🇳🇱</option><option value="no.invidiou.sh">no.invidiou.sh 🇳🇴</option><option value="invidious.enkirton.net">invidious.enkirton.net 🇩🇪</option><option value="tube.poal.co">tube.poal.co 🇺🇸</option><option value="invidious.13ad.de">invidious.13ad.de 🇩🇪</option></select></label></p>
+      <p><label>Server URL override <input type="text" id="url_override" > (This overrides the selected instance.)</label></p>
       <p><label>Dark mode <input type="checkbox" id="darkmode"></label></p>
       <p><label>Thin mode <input type="checkbox" id="thinmode"></label></p>
       <p><label>Always loop <input type="checkbox" id="alwaysloop"></label></p>
       <p><label>Autoplay <input type="checkbox" id="autoplay"></label></p>
       <p><label>Autoplay next video <input type="checkbox" id="autoplaynext"></label></p>
-      <p><label>Listen by default <input type="checkbox" id="listenbydefault"></label></p>
+      <p><label>Audio only <input type="checkbox" id="listenbydefault"></label></p>
       <p><label>Quality <select id="quality"><option value="dash">DASH</option><option value="hd720">hd720</option><option value="medium">Medium</option><option value="small">Small</option></select> (<a href="https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP">DASH</a> sets the bitrate dynamically)</label></p>
-      <p><label>Proxy video<input type="checkbox" id="proxy"> (prevent connections to youtube/google)</label></p>
-      <p><label>Other <a href="https://github.com/omarroth/invidious/wiki/List-of-URL-parameters">properties</a> (&xxx=yyy&aaa=bbb) <input type="text" id="other" ></label><label id="warning" style="color:red;display:none"> Other should start with a '&'!</label></p>
-      <p><label>Cookie <input type="checkbox" id="usecookie"> (send cookie information instad of url arguments; "other" settings is ignored; no actual cookie is saved in the browser)</label></p>
-      <p><label></label></p>
+      <p><label>Language <select id="language"><option value="ar">ar</option><option value="de">de</option><option value="en-US">en-US</option><option value="es">es</option><option value="eu">eu</option><option value="fr">fr</option><option value="it">it</option><option value="nb_NO">nb_NO</option><option value="nl">nl</option><option value="pl">pl</option><option value="ru">ru</option></select></label></p>
+      <p><label>Proxy video<input type="checkbox" id="proxy"> (Prevent connections to youtube/google. This may not be available on every Invidious instance.)</label></p>
+      <p><label>Other <a href="https://github.com/omarroth/invidious/wiki/List-of-URL-parameters">arguments</a> (&xxx=yyy&aaa=bbb) <input type="text" id="other" > (This only works with cookie mode disabled.)</label></p>
+      <p><label>Cookie mode <input type="checkbox" id="usecookie"> (Sends a cookie header instead of url arguments.)</label></p>
+      <p><label>Important:</label></p>
+      <p><label>Invidioucous does not store an actual cookie. If you need to log in on Invidious you need to disable cookie mode.</label></p>
+      <p><label>Sometimes Invidous connects to youtube/googlevideo servers even if the proxy mode is enabled. If you want to make sure Firefox is not talking to those servers you should use some sort of personal firewall or an extension like uMatrix/uBlockO.</label></p>
       <button id="submitbutton" type="submit">Save</button><label id="saved" style="color:green;display:none"> saved</label>
     </form>
 
